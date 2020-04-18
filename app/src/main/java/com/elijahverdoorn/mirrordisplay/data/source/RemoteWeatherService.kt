@@ -1,12 +1,12 @@
 package com.elijahverdoorn.mirrordisplay.data.source
 
-import com.elijahverdoorn.mirrordisplay.data.model.Weather
+import com.elijahverdoorn.mirrordisplay.data.model.WeatherResponse
 import com.elijahverdoorn.mirrordisplay.service.RetrofitService
 import retrofit2.http.GET
 
 interface RemoteWeatherService {
     @GET("onecall?lat=${OAKLAND_LAT}&lon=${OAKLAND_LON}&appid=${WEATHER_API_KEY}&units=imperial")
-    suspend fun fetchWeather(): Weather
+    suspend fun fetchWeather(): WeatherResponse
 
     companion object {
         fun create() = RetrofitService.create(RemoteWeatherService::class.java, WEATHER_BASE_URL)

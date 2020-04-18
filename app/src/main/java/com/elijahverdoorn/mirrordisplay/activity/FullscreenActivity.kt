@@ -8,6 +8,7 @@ import android.view.View
 import com.elijahverdoorn.mirrordisplay.R
 import com.elijahverdoorn.mirrordisplay.component.QuoteComponent
 import com.elijahverdoorn.mirrordisplay.component.TimeComponent
+import com.elijahverdoorn.mirrordisplay.component.WeatherComponent
 import com.elijahverdoorn.mirrordisplay.data.manager.QuoteManager
 import com.elijahverdoorn.mirrordisplay.data.manager.WeatherManager
 import kotlinx.android.synthetic.main.activity_fullscreen.*
@@ -70,12 +71,12 @@ class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
         }
         quoteFrame.addView(quoteComponent)
 
+        val weatherComponent = WeatherComponent(this)
         val weatherManager = WeatherManager(coroutineContext)
         launch {
-            val weather = weatherManager.getWeather()
-            Log.d("weather", weather.toString())
-
+            weatherComponent.update(weatherManager)
         }
+        weatherFrame.addView(weatherComponent)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

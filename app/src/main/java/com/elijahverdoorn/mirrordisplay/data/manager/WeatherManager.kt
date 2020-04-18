@@ -1,6 +1,6 @@
 package com.elijahverdoorn.mirrordisplay.data.manager
 
-import com.elijahverdoorn.mirrordisplay.data.model.Weather
+import com.elijahverdoorn.mirrordisplay.data.model.WeatherResponse
 import com.elijahverdoorn.mirrordisplay.data.source.RemoteWeatherService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -8,8 +8,8 @@ import kotlin.coroutines.CoroutineContext
 
 class WeatherManager(override val coroutineContext: CoroutineContext): CoroutineScope {
 
-    val service = RemoteWeatherService.create()
-    private lateinit var weather: Weather
+    private val service = RemoteWeatherService.create()
+    private lateinit var weather: WeatherResponse
 
     init {
         launch {
@@ -17,7 +17,7 @@ class WeatherManager(override val coroutineContext: CoroutineContext): Coroutine
         }
     }
 
-    suspend fun getWeather(): Weather {
+    suspend fun getWeather(): WeatherResponse {
         return if (this::weather.isInitialized && !weather.stale) {
             weather
         } else {

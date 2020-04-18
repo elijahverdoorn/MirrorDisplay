@@ -7,7 +7,7 @@ import java.time.temporal.ChronoUnit
 
 // NOTE: Incomplete models
 @Serializable
-data class Weather(
+data class WeatherResponse(
     val lat: Float,
     val lon: Float,
     val timezone: String,
@@ -23,17 +23,20 @@ data class Weather(
 
     @Serializable
     data class Current(
-        val temp: Float
+        val temp: Float,
+        val weather: List<Weather>
     )
 
     @Serializable
     data class Hourly(
-        val temp: Float
+        val temp: Float,
+        val weather: List<Weather>
     )
 
     @Serializable
     data class Daily(
-        val temp: Temp
+        val temp: Temp,
+        val weather: List<Weather>
     ) {
         @Serializable
         data class Temp(
@@ -45,4 +48,14 @@ data class Weather(
             val morn: Float
         )
     }
+}
+
+@Serializable
+data class Weather(
+    val id: Int,
+    val main: String,
+    val description: String,
+    private val icon: String
+) {
+    val iconUrl: String = "http://openweathermap.org/img/wn/${icon}@2x.png"
 }

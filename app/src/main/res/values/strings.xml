@@ -3,4 +3,6 @@
 
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="tomorrow_condition_icon">Tomorrow Condition Icon</string>
+    <string name="today_condition_icon">Today condition icon</string>
 </resources>
