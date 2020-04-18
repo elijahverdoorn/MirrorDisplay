@@ -1,0 +1,20 @@
+{
+  "quotes": [
+    {
+      "quote": "hello world",
+      "speaker": "Elijah"
+    },
+    {
+      "quote": "bar",
+      "speaker": "foo"
+    },
+    {
+      "quote": "three",
+      "speaker": "person"
+    },
+    {
+      "quote": "four",
+      "speaker": "baz"
+    }
+  ]
+}
