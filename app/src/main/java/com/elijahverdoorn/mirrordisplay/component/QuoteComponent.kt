@@ -26,7 +26,7 @@ class QuoteComponent : FrameLayout {
         while (true) {
             val q = quoteManager.getQuote()
             quote.text = q.quote
-            speaker.text = q.speaker
+            speaker.text = " - " + q.speaker
             delay(TimeUnit.SECONDS.toMillis(10)) // Temp: every 10s, run this
         }
     }

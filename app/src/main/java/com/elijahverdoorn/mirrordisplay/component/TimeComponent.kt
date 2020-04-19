@@ -28,6 +28,7 @@ class TimeComponent: FrameLayout {
             val s = calendar.get(Calendar.HOUR).toString() + ":" + calendar.get(Calendar.MINUTE)
                 .toString() + ":" + calendar.get(Calendar.SECOND).toString()
             time.text = s
+            label.text = if (calendar.get(Calendar.AM_PM) == 0) "AM" else "PM"
             delay(1000)
         }
     }
