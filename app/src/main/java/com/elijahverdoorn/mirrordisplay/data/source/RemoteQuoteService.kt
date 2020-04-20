@@ -9,8 +9,7 @@ interface RemoteQuoteService {
     suspend fun fetchQuotes(): QuoteResponse
 
     companion object {
-        fun create() = RetrofitService.create(RemoteQuoteService::class.java, QUOTE_BASE_URL)
+        fun create(url: String) = RetrofitService.create(RemoteQuoteService::class.java, url)
 
-        private const val QUOTE_BASE_URL = "http://10.0.2.2:4000/"
     }
 }

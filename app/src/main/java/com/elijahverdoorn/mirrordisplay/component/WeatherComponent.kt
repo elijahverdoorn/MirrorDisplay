@@ -29,6 +29,7 @@ class WeatherComponent : FrameLayout {
     suspend fun update(weatherManager: WeatherManager) {
         while (true) {
             val w = weatherManager.getWeather()
+            // TODO: extract strings to resources
             currentTemp.text = w.current.temp.toString() + " F"
             tomorrowTemp.text = w.daily.get(1).temp.day.toString() + " F"
 

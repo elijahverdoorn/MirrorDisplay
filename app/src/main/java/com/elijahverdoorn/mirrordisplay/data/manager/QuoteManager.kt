@@ -6,9 +6,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class QuoteManager(override val coroutineContext: CoroutineContext): CoroutineScope {
-
-    val service = RemoteQuoteService.create()
+class QuoteManager(
+    override val coroutineContext: CoroutineContext,
+    url: String
+): CoroutineScope {
+    val service = RemoteQuoteService.create(url)
     lateinit var quotes: List<Quote>
 
     init {
@@ -30,5 +32,4 @@ class QuoteManager(override val coroutineContext: CoroutineContext): CoroutineSc
     }
 
     private suspend fun fetchQuotes() = service.fetchQuotes().quotes
-
 }

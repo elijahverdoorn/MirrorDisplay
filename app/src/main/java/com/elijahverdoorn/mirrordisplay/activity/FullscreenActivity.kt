@@ -1,5 +1,8 @@
 package com.elijahverdoorn.mirrordisplay.activity
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -42,6 +45,7 @@ class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
     }
     private var mVisible: Boolean = false
     private val mHideRunnable = Runnable { hide() }
+    private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,29 +58,44 @@ class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
         // Set up the user interaction to manually show or hide the system UI.
         fullscreen_content.setOnClickListener { toggle() }
 
-        val timeComponent = TimeComponent(this)
-        launch {
-            timeComponent.update()
-        }
-        timeFrame.addView(timeComponent)
+        prefs = applicationContext.getSharedPreferences(getString(R.string.SHARED_PREFS_FILE_KEY), Context.MODE_PRIVATE)
 
-
-        val quoteComponent = QuoteComponent(this)
-        val quoteManager =
-            QuoteManager(
-                coroutineContext
-            )
-        launch {
-            quoteComponent.update(quoteManager)
+        if (sharedPrefsSet(prefs)) {
+            setupUI()
+        } else {
+            // Need settings
+            launchSettings()
         }
-        quoteFrame.addView(quoteComponent)
+    }
 
-        val weatherComponent = WeatherComponent(this)
-        val weatherManager = WeatherManager(coroutineContext)
-        launch {
-            weatherComponent.update(weatherManager)
+    private fun sharedPrefsSet(sharedPreferences: SharedPreferences): Boolean {
+        listOf(
+            getString(R.string.SHARED_PREFS_QUOTE_URL),
+            getString(R.string.SHARED_PREFS_WEATHER_LAT),
+            getString(R.string.SHARED_PREFS_WEATHER_LON),
+            getString(R.string.SHARED_PREFS_WEATHER_API_KEY)
+        ).forEach {
+            if (!sharedPreferences.contains(it)) {
+                return false
+            }
         }
-        weatherFrame.addView(weatherComponent)
+        return true
+    }
+
+    private fun setupUI() {
+        makeWeatherComponent(
+            prefs.getString(getString(R.string.SHARED_PREFS_WEATHER_API_KEY), "")!!,
+            prefs.getFloat(getString(R.string.SHARED_PREFS_WEATHER_LAT), 0f),
+            prefs.getFloat(getString(R.string.SHARED_PREFS_WEATHER_LON), 0f)
+        )
+        makeQuoteComponent(
+            prefs.getString(getString(R.string.SHARED_PREFS_QUOTE_URL), "")!!
+        )
+        makeTimeComponent()
+    }
+
+    private fun launchSettings() {
+        startActivity(Intent(this, SettingsActivity::class.java))
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -86,6 +105,40 @@ class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
         // created, to briefly hint to the user that UI controls
         // are available.
         delayedHide(100)
+    }
+
+    private fun makeWeatherComponent(
+        apiKey: String,
+        lat: Float,
+        lon: Float
+    ) {
+        val weatherComponent = WeatherComponent(this)
+        val weatherManager = WeatherManager(coroutineContext, apiKey, lat, lon)
+        launch {
+            weatherComponent.update(weatherManager)
+        }
+        weatherFrame.addView(weatherComponent)
+    }
+
+    private fun makeTimeComponent() {
+        val timeComponent = TimeComponent(this)
+        launch {
+            timeComponent.update()
+        }
+        timeFrame.addView(timeComponent)
+    }
+
+    private fun makeQuoteComponent(quoteUrl: String) {
+        val quoteComponent = QuoteComponent(this)
+        val quoteManager =
+            QuoteManager(
+                coroutineContext,
+                quoteUrl
+            )
+        launch {
+            quoteComponent.update(quoteManager)
+        }
+        quoteFrame.addView(quoteComponent)
     }
 
     private fun toggle() {
