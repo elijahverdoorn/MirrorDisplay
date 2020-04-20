@@ -2,6 +2,8 @@ package com.elijahverdoorn.mirrordisplay.component
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.provider.Settings.Global.getString
+import android.text.format.Formatter
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
@@ -12,6 +14,8 @@ import com.elijahverdoorn.mirrordisplay.R
 import com.elijahverdoorn.mirrordisplay.data.manager.WeatherManager
 import kotlinx.android.synthetic.main.weather_component.view.*
 import kotlinx.coroutines.delay
+import java.lang.StringBuilder
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class WeatherComponent : FrameLayout {
@@ -29,9 +33,8 @@ class WeatherComponent : FrameLayout {
     suspend fun update(weatherManager: WeatherManager) {
         while (true) {
             val w = weatherManager.getWeather()
-            // TODO: extract strings to resources
-            currentTemp.text = w.current.temp.toString() + " F"
-            tomorrowTemp.text = w.daily.get(1).temp.day.toString() + " F"
+            currentTemp.text = resources.getString(R.string.temp_f_template, w.current.temp)
+            tomorrowTemp.text = resources.getString(R.string.temp_f_template, w.daily.first().temp.day)
 
             loadWeatherIcon(currentTemp, w.current.weather.first().iconUrl)
             loadWeatherIcon(tomorrowTemp, w.daily.get(1).weather.first().iconUrl)

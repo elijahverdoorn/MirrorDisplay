@@ -25,9 +25,12 @@ class TimeComponent: FrameLayout {
     suspend fun update() {
         while (true) {
             val calendar = Calendar.getInstance()
-            // TODO: fix this to show leading 0s
-            val s = calendar.get(Calendar.HOUR).toString() + ":" + calendar.get(Calendar.MINUTE)
-                .toString() + ":" + calendar.get(Calendar.SECOND).toString()
+            val s = calendar.get(Calendar.HOUR).toString() + ":" +
+                    if (calendar.get(Calendar.MINUTE) < 10) {
+                        "0"
+                    } else {
+                        ""
+                    } + calendar.get(Calendar.MINUTE).toString()
             time.text = s
             label.text = if (calendar.get(Calendar.AM_PM) == 0) "AM" else "PM"
             delay(1000)
