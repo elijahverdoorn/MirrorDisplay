@@ -2,14 +2,15 @@ package com.elijahverdoorn.mirrordisplay.data.source
 
 import com.elijahverdoorn.mirrordisplay.data.model.QuoteResponse
 import com.elijahverdoorn.mirrordisplay.service.RetrofitService
-import retrofit2.http.GET
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
+import okhttp3.Request
 
-interface RemoteQuoteService {
-    @GET("/quotes.json")
-    suspend fun fetchQuotes(): QuoteResponse
-
-    companion object {
-        fun create(url: String) = RetrofitService.create(RemoteQuoteService::class.java, url)
-
+class RemoteQuoteService(
+    val url: String
+) {
+    fun fetchQuotes(): QuoteResponse {
+        val s = RetrofitService.client.newCall(Request.Builder().url(url).build()).execute()
+        return Json(JsonConfiguration.Default).parse(QuoteResponse.serializer(), s.body?.string()?:"")
     }
 }

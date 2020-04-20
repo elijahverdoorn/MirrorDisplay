@@ -19,4 +19,5 @@ object RetrofitService {
             .client(client)
             .build()
             .create(clazz)
+
 }

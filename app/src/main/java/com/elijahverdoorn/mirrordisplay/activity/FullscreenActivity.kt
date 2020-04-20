@@ -132,7 +132,6 @@ class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
         val quoteComponent = QuoteComponent(this)
         val quoteManager =
             QuoteManager(
-                coroutineContext,
                 quoteUrl
             )
         launch {

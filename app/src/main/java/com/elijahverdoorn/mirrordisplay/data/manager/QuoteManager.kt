@@ -3,19 +3,21 @@ package com.elijahverdoorn.mirrordisplay.data.manager
 import com.elijahverdoorn.mirrordisplay.data.model.Quote
 import com.elijahverdoorn.mirrordisplay.data.source.RemoteQuoteService
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
 class QuoteManager(
-    override val coroutineContext: CoroutineContext,
-    url: String
+    url: String,
+    override val coroutineContext: CoroutineContext = Dispatchers.IO
 ): CoroutineScope {
-    val service = RemoteQuoteService.create(url)
+    val service = RemoteQuoteService(url)
     lateinit var quotes: List<Quote>
 
     init {
         launch {
-            quotes = fetchQuotes()
+            fetchQuotes()
         }
     }
 
@@ -27,9 +29,12 @@ class QuoteManager(
             return q
         }
         // quotes empty or not init
-        quotes = fetchQuotes()
+        fetchQuotes()
         return getQuote()
     }
 
-    private suspend fun fetchQuotes() = service.fetchQuotes().quotes
+    private suspend fun fetchQuotes() =
+        withContext(coroutineContext) {
+            quotes = service.fetchQuotes().quotes
+        }
 }

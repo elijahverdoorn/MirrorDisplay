@@ -3,15 +3,15 @@ package com.elijahverdoorn.mirrordisplay.data.source
 import com.elijahverdoorn.mirrordisplay.data.model.WeatherResponse
 import com.elijahverdoorn.mirrordisplay.service.RetrofitService
 import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface RemoteWeatherService {
 
-    @GET("onecall?lat={lat}&lon={lon}&appid={apiKey}&units=imperial")
+    @GET("onecall?units=imperial")
     suspend fun fetchWeather(
-        @Path("lat") lat: Float,
-        @Path("lon") lon: Float,
-        @Path("apiKey") apiKey: String
+        @Query("lat") lat: Float,
+        @Query("lon") lon: Float,
+        @Query("apiKey") apiKey: String
     ): WeatherResponse
 
     companion object {

@@ -15,7 +15,6 @@
         <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
         <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
 
-
         <item name="android:textColor">@color/white_text</item>
     </style>
 
