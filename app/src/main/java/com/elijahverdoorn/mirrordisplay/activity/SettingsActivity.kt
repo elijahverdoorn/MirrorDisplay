@@ -22,15 +22,25 @@ class SettingsActivity : AppCompatActivity() {
         prefs = applicationContext.getSharedPreferences(getString(R.string.SHARED_PREFS_FILE_KEY), Context.MODE_PRIVATE)
         setFromPrefs(prefs)
 
-        save.setOnClickListener {
-            if (fieldsSet()) {
-                saveSettings(prefs)
-                startMainActivity()
-            } else {
-                // need all values to proceed, so don't advance
-                Snackbar.make(save, R.string.settings_not_all_fields_set, Snackbar.LENGTH_SHORT).show();
-            }
+        cleanButton.setOnClickListener {
+            clearSettings(prefs)
+            clearFields()
         }
+
+        save.setOnClickListener {
+            onBackPressed()
+        }
+    }
+
+    private fun clearFields() {
+        quoteURL.editText?.text?.clear()
+        weatherApiKey.editText?.text?.clear()
+        weatherLat.editText?.text?.clear()
+        weatherLon.editText?.text?.clear()
+    }
+
+    private fun clearSettings(prefs: SharedPreferences) {
+        prefs.edit().clear().commit()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -44,8 +54,13 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        saveSettings(prefs)
-        startMainActivity()
+        if (fieldsSet()) {
+            saveSettings(prefs)
+            startMainActivity()
+        } else {
+            // need all values to proceed, so don't advance
+            Snackbar.make(save, R.string.settings_not_all_fields_set, Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     private fun startMainActivity() {
@@ -55,8 +70,12 @@ class SettingsActivity : AppCompatActivity() {
     private fun setFromPrefs(prefs: SharedPreferences) {
         quoteURL.editText?.setText(prefs.getString(getString(R.string.SHARED_PREFS_QUOTE_URL), ""))
         weatherApiKey.editText?.setText(prefs.getString(getString(R.string.SHARED_PREFS_WEATHER_API_KEY), ""))
-        weatherLat.editText?.setText(prefs.getFloat(getString(R.string.SHARED_PREFS_WEATHER_LAT), 0f).toString())
-        weatherLon.editText?.setText(prefs.getFloat(getString(R.string.SHARED_PREFS_WEATHER_LON),  0f).toString())
+        if (prefs.contains(getString(R.string.SHARED_PREFS_WEATHER_LAT))) {
+            weatherLat.editText?.setText(prefs.getFloat(getString(R.string.SHARED_PREFS_WEATHER_LAT), 0f).toString())
+        }
+        if (prefs.contains(getString(R.string.SHARED_PREFS_WEATHER_LON))) {
+            weatherLon.editText?.setText(prefs.getFloat(getString(R.string.SHARED_PREFS_WEATHER_LON), 0f).toString())
+        }
     }
 
     private fun fieldsSet(): Boolean {
@@ -89,9 +108,9 @@ class SettingsActivity : AppCompatActivity() {
         val lat = weatherLat.editText?.text.toString().toFloat()
         val lon = weatherLon.editText?.text.toString().toFloat()
         mapOf(
-             lat to getString(R.string.SHARED_PREFS_WEATHER_LAT),
-             lon to getString(R.string.SHARED_PREFS_WEATHER_LON)
-        ).forEach { value, key ->
+            getString(R.string.SHARED_PREFS_WEATHER_LAT) to lat,
+            getString(R.string.SHARED_PREFS_WEATHER_LON) to lon
+        ).forEach { key, value ->
             with(editor) {
                 putFloat(key, value)
             }

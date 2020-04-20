@@ -17,7 +17,6 @@
             android:label="@string/title_activity_settings" />
         <activity
             android:name=".activity.FullscreenActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@style/FullscreenTheme">
             <intent-filter>
