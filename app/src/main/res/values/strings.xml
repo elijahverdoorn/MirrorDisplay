@@ -2,7 +2,7 @@
     <string name="app_name">MirrorDisplay</string>
 
     <!-- Temp -->
-    <string name="temp_f_template">%1f °F</string>
+    <string name="temp_f_template">%.1f °F</string>
 
     <!-- Settings -->
     <string name="settings_quote_url">Quote URL</string>

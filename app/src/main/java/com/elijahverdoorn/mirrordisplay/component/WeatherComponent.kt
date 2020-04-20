@@ -46,9 +46,6 @@ class WeatherComponent : FrameLayout {
     private fun loadWeatherIcon(view: TextView, url: String) {
         Glide.with(context)
             .load(url)
-            // TODO: Add placeholder
-//                .placeholder()
-//                .error()
             .into(object : CustomTarget<Drawable>(100, 100) {
                 override fun onLoadCleared(drawable: Drawable?) {
                     view.setCompoundDrawablesWithIntrinsicBounds(
