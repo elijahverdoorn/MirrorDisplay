@@ -8,9 +8,10 @@
 
     <TextView
         android:id="@+id/quote"
+        style="@style/TextQuote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/TextHeader"
+        android:fontFamily="@font/heebo_thin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Some quote" />

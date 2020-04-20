@@ -25,8 +25,8 @@ class QuoteComponent : FrameLayout {
     suspend fun update(quoteManager: QuoteManager) {
         while (true) {
             val q = quoteManager.getQuote()
-            quote.text = q.quote
-            speaker.text = " - " + q.speaker
+            quote.text = resources.getString(R.string.quote_template, q.quote)
+            speaker.text = resources.getString(R.string.quote_speaker_template, q.speaker)
             delay(TimeUnit.SECONDS.toMillis(10)) // Temp: every 10s, run this
         }
     }

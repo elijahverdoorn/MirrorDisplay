@@ -5,17 +5,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
+        android:id="@+id/todayText"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/today"/>
+
+    <TextView
         android:id="@+id/currentTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        style="@style/TextHeader"
+        app:layout_constraintTop_toBottomOf="@id/todayText"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tomorrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tomorrow"
+        app:layout_constraintTop_toBottomOf="@id/currentTemp"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:id="@+id/tomorrowTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/TextHeader"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/currentTemp"/>
+        app:layout_constraintTop_toBottomOf="@id/tomorrow"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

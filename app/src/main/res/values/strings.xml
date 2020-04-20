@@ -1,8 +1,14 @@
 <resources>
     <string name="app_name">MirrorDisplay</string>
 
+    <!-- Quote -->
+    <string name="quote_template">\"%s\"</string>
+    <string name="quote_speaker_template">- %s</string>
+
     <!-- Temp -->
     <string name="temp_f_template">%.1f °F</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
 
     <!-- Settings -->
     <string name="settings_quote_url">Quote URL</string>

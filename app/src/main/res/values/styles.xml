@@ -20,6 +20,13 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="TextQuote" parent="FullscreenTheme">
+        <item name="android:textSize">32sp</item>
+        <item name="android:fontFamily">@font/heebo_bold</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textColor">@color/white_text</item>
+    </style>
+
     <style name="TextHeader" parent="FullscreenTheme">
         <item name="android:textSize">32sp</item>
         <item name="android:fontFamily">@font/heebo_bold</item>
