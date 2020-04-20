@@ -3,11 +3,12 @@ package com.elijahverdoorn.mirrordisplay.activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.elijahverdoorn.mirrordisplay.R
 import com.elijahverdoorn.mirrordisplay.component.QuoteComponent
 import com.elijahverdoorn.mirrordisplay.component.TimeComponent
@@ -15,8 +16,10 @@ import com.elijahverdoorn.mirrordisplay.component.WeatherComponent
 import com.elijahverdoorn.mirrordisplay.data.manager.QuoteManager
 import com.elijahverdoorn.mirrordisplay.data.manager.WeatherManager
 import kotlinx.android.synthetic.main.activity_fullscreen.*
-import kotlinx.coroutines.*
-import java.lang.Runnable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -51,7 +54,6 @@ class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_fullscreen)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         mVisible = true
 
@@ -66,6 +68,19 @@ class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
             // Need settings
             launchSettings()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.getItemId() == R.id.settings) {
+            launchSettings()
+            true
+        } else super.onOptionsItemSelected(item)
     }
 
     private fun sharedPrefsSet(sharedPreferences: SharedPreferences): Boolean {

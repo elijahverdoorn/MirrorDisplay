@@ -25,6 +25,7 @@ class TimeComponent: FrameLayout {
     suspend fun update() {
         while (true) {
             val calendar = Calendar.getInstance()
+            // TODO: fix this to show leading 0s
             val s = calendar.get(Calendar.HOUR).toString() + ":" + calendar.get(Calendar.MINUTE)
                 .toString() + ":" + calendar.get(Calendar.SECOND).toString()
             time.text = s
