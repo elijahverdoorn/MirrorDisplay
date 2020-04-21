@@ -4,6 +4,8 @@ MirrorDisplay is a simple application for Android created to provide customized 
 
 When developing this application I focused on simply getting things to work rapidly, preferring iterating quickly over investing in long-term optimizations. I did my best to avoid preventing future improvements, but I know that there are still numerous areas of the code that are suboptimal and could be made more efficient/cleaner.
 
+## Functionality
+
 The application currently supports the following "modules":
 
 ### Local Time
@@ -45,3 +47,4 @@ Individual modules can be enabled and disabled in the settings menu.
 ## Contributions
 
 Code contributions to this repository are welcome in the form of Pull Requests. If you use this software and find a bug, feel free to create an issue here on GitHub and I'll do my best to address the problem.
+
