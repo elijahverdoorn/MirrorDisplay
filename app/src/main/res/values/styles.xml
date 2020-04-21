@@ -20,11 +20,18 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
-    <style name="TextQuote" parent="FullscreenTheme">
-        <item name="android:textSize">32sp</item>
-        <item name="android:fontFamily">@font/heebo_bold</item>
-        <item name="android:textStyle">italic</item>
+    <style name="ThinText" parent="FullscreenTheme">
         <item name="android:textColor">@color/white_text</item>
+        <item name="android:fontFamily">@font/heebo_thin</item>
+    </style>
+
+    <style name="TextBible" parent="ThinText">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TextQuote" parent="ThinText">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textStyle">italic</item>
     </style>
 
     <style name="TextHeader" parent="FullscreenTheme">

@@ -9,13 +9,16 @@
         android:id="@+id/verse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/TextBible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/chapter"
+        style="@style/TextSubheader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/verse" />
 </androidx.constraintlayout.widget.ConstraintLayout>

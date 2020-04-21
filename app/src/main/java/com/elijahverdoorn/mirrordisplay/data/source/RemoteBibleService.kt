@@ -7,11 +7,10 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.Request
 
-
 class RemoteBibleService {
     fun fetchBible(): Bible {
         val s = RetrofitService.client.newCall(Request.Builder().url(BIBLE_API_URL).build()).execute()
-        return Json(JsonConfiguration.Default).parse(Bible.serializer().list, s.body?.string()?:"").first()
+        return Json(JsonConfiguration.Default.copy(ignoreUnknownKeys = true)).parse(Bible.serializer().list, s.body?.string()?:"").first()
     }
 
     companion object {
