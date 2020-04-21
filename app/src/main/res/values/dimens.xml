@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Settings -->
     <dimen name="settings_list_padding">8dp</dimen>
     <dimen name="settings_fab_padding">16dp</dimen>
+
+    <!-- Quote -->
+    <dimen name="quote_padding">8dp</dimen>
+
+
 </resources>

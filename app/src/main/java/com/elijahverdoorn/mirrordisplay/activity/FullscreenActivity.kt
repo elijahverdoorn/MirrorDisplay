@@ -10,9 +10,11 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.elijahverdoorn.mirrordisplay.R
+import com.elijahverdoorn.mirrordisplay.component.BibleComponent
 import com.elijahverdoorn.mirrordisplay.component.QuoteComponent
 import com.elijahverdoorn.mirrordisplay.component.TimeComponent
 import com.elijahverdoorn.mirrordisplay.component.WeatherComponent
+import com.elijahverdoorn.mirrordisplay.data.manager.BibleManager
 import com.elijahverdoorn.mirrordisplay.data.manager.QuoteManager
 import com.elijahverdoorn.mirrordisplay.data.manager.WeatherManager
 import kotlinx.android.synthetic.main.activity_fullscreen.*
@@ -107,6 +109,16 @@ class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
             prefs.getString(getString(R.string.SHARED_PREFS_QUOTE_URL), "")!!
         )
         makeTimeComponent()
+        makeBibleComponent()
+    }
+
+    private fun makeBibleComponent() {
+        val bibleComponent = BibleComponent(this)
+        val bibleManager = BibleManager()
+        launch {
+            bibleComponent.update(bibleManager)
+        }
+        bibleFrame.addView(bibleComponent)
     }
 
     private fun launchSettings() {

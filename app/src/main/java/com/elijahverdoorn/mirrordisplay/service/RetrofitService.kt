@@ -9,7 +9,10 @@ import retrofit2.Retrofit
 
 object RetrofitService {
     val logger = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
-    val client = OkHttpClient.Builder().addInterceptor(logger).build()
+    val client = OkHttpClient.Builder()
+        .cache(null)
+        .addInterceptor(logger)
+        .build()
     private const val MEDIA_TYPE_JSON = "application/json"
 
     fun <S> create(clazz: Class<S>, url: String) =

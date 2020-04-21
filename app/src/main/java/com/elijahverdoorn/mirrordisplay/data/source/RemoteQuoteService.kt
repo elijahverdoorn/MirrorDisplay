@@ -11,6 +11,7 @@ class RemoteQuoteService(
 ) {
     fun fetchQuotes(): QuoteResponse {
         val s = RetrofitService.client.newCall(Request.Builder().url(url).build()).execute()
-        return Json(JsonConfiguration.Default).parse(QuoteResponse.serializer(), s.body?.string()?:"")
+        return Json(JsonConfiguration.Default.copy(ignoreUnknownKeys = true))
+            .parse(QuoteResponse.serializer(), s.body?.string()?:"")
     }
 }

@@ -32,21 +32,26 @@
     <!-- Actual Content Here -->
     <FrameLayout
         android:id="@+id/timeFrame"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <FrameLayout
         android:id="@+id/quoteFrame"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/timeFrame" />
     <FrameLayout
         android:id="@+id/weatherFrame"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/quoteFrame" />
-
+    <FrameLayout
+        android:id="@+id/bibleFrame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/weatherFrame" />
 </androidx.constraintlayout.widget.ConstraintLayout>
