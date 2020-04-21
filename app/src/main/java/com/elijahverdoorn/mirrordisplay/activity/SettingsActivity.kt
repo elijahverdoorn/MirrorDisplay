@@ -68,6 +68,8 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun setFromPrefs(prefs: SharedPreferences) {
+        setSwitchesFromPrefs(prefs)
+
         quoteURL.editText?.setText(prefs.getString(getString(R.string.SHARED_PREFS_QUOTE_URL), ""))
         weatherApiKey.editText?.setText(prefs.getString(getString(R.string.SHARED_PREFS_WEATHER_API_KEY), ""))
         if (prefs.contains(getString(R.string.SHARED_PREFS_WEATHER_LAT))) {
@@ -78,18 +80,24 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    private fun fieldsSet(): Boolean {
-        if (
-            quoteURL.editText?.text.isNullOrBlank() ||
-            weatherApiKey.editText?.text.isNullOrBlank() ||
-            weatherLat.editText?.text.isNullOrBlank() ||
-            weatherLon.editText?.text.isNullOrBlank()
-        ) {
-            return false
-        } else {
-            return true
-        }
+    private fun setSwitchesFromPrefs(prefs: SharedPreferences) {
+        quoteSwitch.isChecked = prefs.getBoolean(getString(R.string.SHARED_PREFS_QUOTE_ENABLED), false)
+        bibleSwitch.isChecked = prefs.getBoolean(getString(R.string.SHARED_PREFS_BIBLE_ENABLED), false)
+        timeSwitch.isChecked = prefs.getBoolean(getString(R.string.SHARED_PREFS_TIME_ENABLED), false)
+        weatherSwitch.isChecked = prefs.getBoolean(getString(R.string.SHARED_PREFS_WEATHER_ENABLED), false)
     }
+
+    private fun fieldsSet() = quoteSet() && weatherSet()
+
+    private fun quoteSet() = if (quoteSwitch.isChecked) {
+            quoteURL.editText?.text.isNullOrBlank().not()
+        } else true
+
+    private fun weatherSet() = if (weatherSwitch.isChecked) {
+            (weatherApiKey.editText?.text.isNullOrBlank().not()
+                    && weatherLat.editText?.text.isNullOrBlank().not()
+                    && weatherLon.editText?.text.isNullOrBlank().not())
+        } else true
 
     private fun saveSettings(prefs: SharedPreferences) {
         val editor = prefs.edit()
@@ -113,6 +121,21 @@ class SettingsActivity : AppCompatActivity() {
         ).forEach { key, value ->
             with(editor) {
                 putFloat(key, value)
+            }
+        }
+
+        val quoteEnabled = quoteSwitch.isChecked
+        val bibleEnabled = bibleSwitch.isChecked
+        val weatherEnabled = weatherSwitch.isChecked
+        val timeEnabled = timeSwitch.isChecked
+        mapOf(
+            getString(R.string.SHARED_PREFS_QUOTE_ENABLED) to quoteEnabled,
+            getString(R.string.SHARED_PREFS_BIBLE_ENABLED) to bibleEnabled,
+            getString(R.string.SHARED_PREFS_WEATHER_ENABLED) to weatherEnabled,
+            getString(R.string.SHARED_PREFS_TIME_ENABLED) to timeEnabled
+        ).forEach { key, value ->
+            with(editor) {
+                putBoolean(key, value)
             }
         }
         editor.commit()

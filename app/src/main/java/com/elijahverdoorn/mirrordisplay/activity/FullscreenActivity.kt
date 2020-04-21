@@ -65,7 +65,7 @@ class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
         prefs = applicationContext.getSharedPreferences(getString(R.string.SHARED_PREFS_FILE_KEY), Context.MODE_PRIVATE)
 
         if (sharedPrefsSet(prefs)) {
-            setupUI()
+            setupUI(prefs)
         } else {
             // Need settings
             launchSettings()
@@ -86,30 +86,53 @@ class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
     }
 
     private fun sharedPrefsSet(sharedPreferences: SharedPreferences): Boolean {
-        listOf(
-            getString(R.string.SHARED_PREFS_QUOTE_URL),
-            getString(R.string.SHARED_PREFS_WEATHER_LAT),
+        return weatherPrefsSet(sharedPreferences) && quotePrefsSet(prefs)
+    }
+
+    private fun weatherPrefsSet(prefs: SharedPreferences): Boolean {
+        return componentPrefsSet(prefs, getString(R.string.SHARED_PREFS_WEATHER_ENABLED), listOf(
             getString(R.string.SHARED_PREFS_WEATHER_LON),
+            getString(R.string.SHARED_PREFS_WEATHER_LAT),
             getString(R.string.SHARED_PREFS_WEATHER_API_KEY)
-        ).forEach {
-            if (!sharedPreferences.contains(it)) {
-                return false
+        ))
+    }
+
+    private fun quotePrefsSet(prefs: SharedPreferences): Boolean {
+        return componentPrefsSet(prefs, getString(R.string.SHARED_PREFS_QUOTE_ENABLED), listOf(
+            getString(R.string.SHARED_PREFS_QUOTE_URL)
+        ))
+    }
+
+    private fun componentPrefsSet(prefs: SharedPreferences, enabledKey: String, requiredVals: List<String>): Boolean {
+        if (prefs.getBoolean(enabledKey, false)) {
+            requiredVals.forEach {
+                if (!prefs.contains(it)) {
+                    return false
+                }
             }
         }
         return true
     }
 
-    private fun setupUI() {
-        makeWeatherComponent(
-            prefs.getString(getString(R.string.SHARED_PREFS_WEATHER_API_KEY), "")!!,
-            prefs.getFloat(getString(R.string.SHARED_PREFS_WEATHER_LAT), 0f),
-            prefs.getFloat(getString(R.string.SHARED_PREFS_WEATHER_LON), 0f)
-        )
-        makeQuoteComponent(
-            prefs.getString(getString(R.string.SHARED_PREFS_QUOTE_URL), "")!!
-        )
-        makeTimeComponent()
-        makeBibleComponent()
+    private fun setupUI(prefs: SharedPreferences) {
+        if (prefs.getBoolean(getString(R.string.SHARED_PREFS_WEATHER_ENABLED), false)) {
+            makeWeatherComponent(
+                prefs.getString(getString(R.string.SHARED_PREFS_WEATHER_API_KEY), "")!!,
+                prefs.getFloat(getString(R.string.SHARED_PREFS_WEATHER_LAT), 0f),
+                prefs.getFloat(getString(R.string.SHARED_PREFS_WEATHER_LON), 0f)
+            )
+        }
+        if (prefs.getBoolean(getString(R.string.SHARED_PREFS_QUOTE_ENABLED), false)) {
+            makeQuoteComponent(
+                prefs.getString(getString(R.string.SHARED_PREFS_QUOTE_URL), "")!!
+            )
+        }
+        if (prefs.getBoolean(getString(R.string.SHARED_PREFS_TIME_ENABLED), false)) {
+            makeTimeComponent()
+        }
+        if (prefs.getBoolean(getString(R.string.SHARED_PREFS_BIBLE_ENABLED), false)) {
+            makeBibleComponent()
+        }
     }
 
     private fun makeBibleComponent() {
