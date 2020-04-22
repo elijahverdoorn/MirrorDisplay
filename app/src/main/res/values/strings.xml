@@ -15,10 +15,10 @@
 
     <!-- Settings -->
     <string name="title_activity_settings">Settings</string>
-    <string name="settings_quote_url">Quote URL</string>
-    <string name="settings_lat">Lat</string>
-    <string name="settings_lon">Lon</string>
-    <string name="settings_api_key">Weather API Key</string>
+    <string name="settings_quote_url">Quote JSON file URL</string>
+    <string name="settings_lat">Weather Component Latitude</string>
+    <string name="settings_lon">Weather Component Longitude</string>
+    <string name="settings_api_key">OpenWeatherMap API Key</string>
     <string name="settings_not_all_fields_set">Error, need all values set</string>
     <string name="settings">Settings</string>
     <string name="clear">Clear</string>
@@ -37,5 +37,7 @@
     <string name="SHARED_PREFS_BIBLE_ENABLED">com.elijahverdoorn.mirrordisplay.BIBLE_ENABLED</string>
     <string name="SHARED_PREFS_TIME_ENABLED">com.elijahverdoorn.mirrordisplay.TIME_ENABLED</string>
     <string name="SHARED_PREFS_WEATHER_ENABLED">com.elijahverdoorn.mirrordisplay.WEATHER_ENABLED</string>
+    <string name="settings_instructions">Set Up: \n 1. Fill in URL of JSON file containing quotes. \n 2. Fill in API key for OpenWeatherMap. \n 3. Fill in latitude and longitude for weather component.</string>
+    <string name="enable_disable">Individual components can be enabled/disabled:</string>
 
 </resources>

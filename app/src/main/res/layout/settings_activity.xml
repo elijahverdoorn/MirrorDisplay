@@ -11,6 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_instructions"
+            android:paddingVertical="8dp"
+            style="" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/quoteURL"
             android:layout_width="match_parent"
@@ -63,43 +70,56 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/clear"
-            android:id="@+id/cleanButton" />
+            android:paddingVertical="8dp"
+            android:text="@string/enable_disable" />
 
         <LinearLayout
             android:orientation="vertical"
+            android:paddingVertical="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/quoteSwitch"
                 android:text="@string/quote_component"
+                app:switchPadding="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/timeSwitch"
                 android:text="@string/time_component"
+                app:switchPadding="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/bibleSwitch"
                 android:text="@string/bible_switch"
+                app:switchPadding="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/weatherSwitch"
                 android:text="@string/weather_component"
+                app:switchPadding="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/clear"
+            android:id="@+id/cleanButton" />
+
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
