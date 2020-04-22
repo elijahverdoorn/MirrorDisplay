@@ -24,7 +24,7 @@
     <string name="clear">Clear</string>
     <string name="quote_component">Quote Component</string>
     <string name="time_component">Time Component</string>
-    <string name="bible_switch">Bible Switch</string>
+    <string name="bible_switch">Bible Component</string>
     <string name="weather_component">Weather Component</string>
 
     <!-- Shared Prefs -->
