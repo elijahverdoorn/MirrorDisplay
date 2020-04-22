@@ -24,17 +24,21 @@ class QuoteManager(
     // Return a single Quote
     suspend fun getQuote(): Quote {
         if (this::quotes.isInitialized && !quotes.isEmpty()) {
-            val q = quotes.random()
-            quotes = quotes.filterNot { it == q }
-            return q
+            return popRandomQuote()
         }
         // quotes empty or not init
         fetchQuotes()
-        return getQuote()
+        return popRandomQuote()
     }
 
     private suspend fun fetchQuotes() =
         withContext(coroutineContext) {
             quotes = service.fetchQuotes().quotes
         }
+
+    private fun popRandomQuote(): Quote {
+        val q = quotes.random()
+        quotes = quotes.filterNot { it == q }
+        return q
+    }
 }

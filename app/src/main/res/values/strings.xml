@@ -2,7 +2,7 @@
     <string name="app_name">MirrorDisplay</string>
 
     <!-- Quote -->
-    <string name="quote_template">\"%s\"</string>
+    <string name="quote_template">\"%s\"\u00A0</string> <!-- Extra trailing space character is intentional -->
     <string name="quote_speaker_template">- %s</string>
 
     <!-- Temp -->

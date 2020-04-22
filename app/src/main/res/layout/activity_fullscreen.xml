@@ -32,26 +32,30 @@
     <!-- Actual Content Here -->
     <FrameLayout
         android:id="@+id/timeFrame"
-        android:layout_width="match_parent"
+        android:padding="@dimen/component_padding"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <FrameLayout
-        android:id="@+id/quoteFrame"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timeFrame" />
-    <FrameLayout
         android:id="@+id/weatherFrame"
-        android:layout_width="match_parent"
+        android:padding="@dimen/component_padding"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/quoteFrame" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <FrameLayout
-        android:id="@+id/bibleFrame"
+        android:id="@+id/quoteFrame"
+        android:padding="@dimen/component_padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/weatherFrame" />
+    <FrameLayout
+        android:id="@+id/bibleFrame"
+        android:padding="@dimen/component_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/quoteFrame" />
 </androidx.constraintlayout.widget.ConstraintLayout>

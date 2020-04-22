@@ -6,6 +6,7 @@
 
     <!-- Quote -->
     <dimen name="quote_padding">8dp</dimen>
+    <dimen name="component_padding">8dp</dimen>
 
 
 </resources>
