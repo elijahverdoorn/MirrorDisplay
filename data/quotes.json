@@ -1,20 +1,28 @@
 {
   "quotes": [
     {
-      "quote": "hello world",
-      "speaker": "Elijah"
+      "quote": "Decisions are made by those who show up.",
+      "speaker": "Jed Bartlet"
     },
     {
-      "quote": "bar",
-      "speaker": "foo"
+      "quote": "The most painful state of being is remembering the future.",
+      "speaker": "Kierkegaard"
     },
     {
-      "quote": "three",
-      "speaker": "person"
+      "quote": "Go One More",
+      "speaker": "Nick Bare"
     },
     {
-      "quote": "four",
-      "speaker": "baz"
+      "quote": "Embrace the Suck",
+      "speaker": "Nick Bare"
+    },
+    {
+      "quote": "Don’t waste your time regretting your past when you could welcome it as your teacher.",
+      "speaker": "Jordan Syatt"
+    },
+    {
+      "quote": "Why do we fall sir? So that we can learn to pick ourselves up.",
+      "speaker": "Alfred Pennyworth"
     }
   ]
 }
