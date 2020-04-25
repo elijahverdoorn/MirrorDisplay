@@ -45,4 +45,12 @@
         <item name="android:fontFamily">@font/lato</item>
         <item name="android:textColor">@color/white_text</item>
     </style>
+
+    <style name="AboutText">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="link" parent="AboutText">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
 </resources>

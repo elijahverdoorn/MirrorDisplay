@@ -79,10 +79,17 @@ class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (item.getItemId() == R.id.settings) {
-            launchSettings()
-            true
-        } else super.onOptionsItemSelected(item)
+        return when (item.getItemId()) {
+            R.id.settings -> {
+                launchSettings()
+                true
+            }
+            R.id.about -> {
+                launchAbout()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun sharedPrefsSet(sharedPreferences: SharedPreferences): Boolean {
@@ -146,6 +153,10 @@ class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
 
     private fun launchSettings() {
         startActivity(Intent(this, SettingsActivity::class.java))
+    }
+
+    private fun launchAbout() {
+        startActivity(Intent(this, AboutActivity::class.java))
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

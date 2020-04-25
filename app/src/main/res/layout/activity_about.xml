@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/about_text_padding"
+    tools:context=".activity.AboutActivity">
+
+    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/AboutText"
+        android:id="@+id/aboutText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/about_main_text"/>
+
+    <TextView
+        style="@style/AboutText"
+        android:id="@+id/appVersion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/aboutText"
+        tools:text="Version: 1.0.0" />
+
+    <TextView
+        android:id="@+id/privacyPolicy"
+        style="@style/link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/mirrordisplay_privacy_policy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appVersion" />
+
+    <TextView
+        android:id="@+id/termsOfService"
+        style="@style/link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/mirrordisplay_terms_of_service"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/privacyPolicy" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
