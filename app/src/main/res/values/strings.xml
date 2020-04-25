@@ -26,6 +26,22 @@
     <string name="time_component">Time Component</string>
     <string name="bible_switch">Bible Component</string>
     <string name="weather_component">Weather Component</string>
+    <string name="settings_instructions">Set Up: \n 1. Fill in URL of JSON file containing quotes. \n 2. Fill in API key for OpenWeatherMap. \n 3. Fill in latitude and longitude for weather component.</string>
+    <string name="enable_disable">Individual components can be enabled/disabled:</string>
+
+    <!-- About -->
+    <string name="about">About</string>
+    <string name="about_main_text">This application is developed by Elijah Verdoorn. It started as a personal interest project and evolved into what you see today. Development of this application is done in spare time when the mood strikes, so updates may be sporadic. With that in mind feel free to get in touch with the developer to report issues, discuss feature ideas, or provide general feedback.</string>
+    <string name="title_activity_about">About %s</string>
+    <string name="version_template">Application Version: %s</string>
+    <string name="terms_of_service_url">http://elijahverdoorn.com/mirror-display-privacy/</string>
+    <string name="privacy_policy_url">http://elijahverdoorn.com/mirror-display-privacy/</string>
+    <string name="mirrordisplay_privacy_policy">MirrorDisplay Privacy Policy</string>
+    <string name="mirrordisplay_terms_of_service">MirrorDisplay Terms of Service</string>
+    <string name="github_link">Code for this application is open source. It can be viewed here. Contributions are welcome.</string>
+    <string name="contact_the_developer">Contact the Developer</string>
+    <string name="developer_email">elijah@elijahverdoorn.com</string>
+    <string name="email_footer_text">-----\n Please do not edit below this line. \n App version: %s \n Device Information: %s\n Android Information: %s</string>
 
     <!-- Shared Prefs -->
     <string name="SHARED_PREFS_FILE_KEY">com.elijahverdoorn.mirrordisplay</string>
@@ -37,7 +53,5 @@
     <string name="SHARED_PREFS_BIBLE_ENABLED">com.elijahverdoorn.mirrordisplay.BIBLE_ENABLED</string>
     <string name="SHARED_PREFS_TIME_ENABLED">com.elijahverdoorn.mirrordisplay.TIME_ENABLED</string>
     <string name="SHARED_PREFS_WEATHER_ENABLED">com.elijahverdoorn.mirrordisplay.WEATHER_ENABLED</string>
-    <string name="settings_instructions">Set Up: \n 1. Fill in URL of JSON file containing quotes. \n 2. Fill in API key for OpenWeatherMap. \n 3. Fill in latitude and longitude for weather component.</string>
-    <string name="enable_disable">Individual components can be enabled/disabled:</string>
 
 </resources>
