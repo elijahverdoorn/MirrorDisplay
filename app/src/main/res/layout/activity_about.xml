@@ -28,6 +28,17 @@
         tools:text="Version: 1.0.0" />
 
     <TextView
+        android:id="@+id/contactDeveloper"
+        style="@style/link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/contact_the_developer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appVersion" />
+
+    <TextView
         android:id="@+id/privacyPolicy"
         style="@style/link"
         android:layout_width="wrap_content"
@@ -36,7 +47,7 @@
         android:text="@string/mirrordisplay_privacy_policy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appVersion" />
+        app:layout_constraintTop_toBottomOf="@id/contactDeveloper" />
 
     <TextView
         android:id="@+id/termsOfService"

@@ -99,20 +99,7 @@ class SettingsActivity : AppCompatActivity() {
                     && weatherLon.editText?.text.isNullOrBlank().not())
         } else true
 
-    private fun saveSettings(prefs: SharedPreferences) {
-        val editor = prefs.edit()
-
-        val quote = quoteURL.editText?.text.toString()
-        val apiKey = weatherApiKey.editText?.text.toString()
-        mapOf(
-            quote to getString(R.string.SHARED_PREFS_QUOTE_URL),
-            apiKey to getString(R.string.SHARED_PREFS_WEATHER_API_KEY)
-        ).forEach { value, key ->
-            with(editor) {
-                putString(key, value)
-            }
-        }
-
+    private fun saveWeather(editor: SharedPreferences.Editor) {
         val lat = weatherLat.editText?.text.toString().toFloat()
         val lon = weatherLon.editText?.text.toString().toFloat()
         mapOf(
@@ -123,7 +110,22 @@ class SettingsActivity : AppCompatActivity() {
                 putFloat(key, value)
             }
         }
+    }
 
+    private fun saveQuote(editor: SharedPreferences.Editor) {
+        val quote = quoteURL.editText?.text.toString()
+        val apiKey = weatherApiKey.editText?.text.toString()
+        mapOf(
+            quote to getString(R.string.SHARED_PREFS_QUOTE_URL),
+            apiKey to getString(R.string.SHARED_PREFS_WEATHER_API_KEY)
+        ).forEach { value, key ->
+            with(editor) {
+                putString(key, value)
+            }
+        }
+    }
+
+    private fun saveEnabled(editor: SharedPreferences.Editor) {
         val quoteEnabled = quoteSwitch.isChecked
         val bibleEnabled = bibleSwitch.isChecked
         val weatherEnabled = weatherSwitch.isChecked
@@ -138,6 +140,19 @@ class SettingsActivity : AppCompatActivity() {
                 putBoolean(key, value)
             }
         }
+    }
+
+    private fun saveSettings(prefs: SharedPreferences) {
+        val editor = prefs.edit()
+
+        saveEnabled(editor)
+        if (quoteSwitch.isChecked) {
+            saveQuote(editor)
+        }
+        if (weatherSwitch.isChecked) {
+            saveWeather(editor)
+        }
+
         editor.commit()
     }
 }
