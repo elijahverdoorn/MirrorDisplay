@@ -34,8 +34,8 @@
     <string name="about_main_text">This application is developed by Elijah Verdoorn. It started as a personal interest project and evolved into what you see today. Development of this application is done in spare time when the mood strikes, so updates may be sporadic. With that in mind feel free to get in touch with the developer to report issues, discuss feature ideas, or provide general feedback.</string>
     <string name="title_activity_about">About %s</string>
     <string name="version_template">Application Version: %s</string>
-    <string name="terms_of_service_url">https://google.com</string>
-    <string name="privacy_policy_url">https://google.com</string>
+    <string name="terms_of_service_url">http://elijahverdoorn.com/mirror-display-privacy/</string>
+    <string name="privacy_policy_url">http://elijahverdoorn.com/mirror-display-privacy/</string>
     <string name="mirrordisplay_privacy_policy">MirrorDisplay Privacy Policy</string>
     <string name="mirrordisplay_terms_of_service">MirrorDisplay Terms of Service</string>
     <string name="github_link">Code for this application is open source. It can be viewed here. Contributions are welcome.</string>
