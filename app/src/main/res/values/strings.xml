@@ -28,6 +28,9 @@
     <string name="weather_component">Weather Component</string>
     <string name="settings_instructions">Set Up: \n 1. Fill in URL of JSON file containing quotes. \n 2. Fill in API key for OpenWeatherMap. \n 3. Fill in latitude and longitude for weather component.</string>
     <string name="enable_disable">Individual components can be enabled/disabled:</string>
+    <string name="bible_duration">Bible Component</string>
+    <string name="quote_duration">Quote Component</string>
+    <string name="duration_instructions">The refresh interval for various components can be customized. Enter values minutes.</string>
 
     <!-- About -->
     <string name="about">About</string>
@@ -53,5 +56,8 @@
     <string name="SHARED_PREFS_BIBLE_ENABLED">com.elijahverdoorn.mirrordisplay.BIBLE_ENABLED</string>
     <string name="SHARED_PREFS_TIME_ENABLED">com.elijahverdoorn.mirrordisplay.TIME_ENABLED</string>
     <string name="SHARED_PREFS_WEATHER_ENABLED">com.elijahverdoorn.mirrordisplay.WEATHER_ENABLED</string>
+
+    <string name="SHARED_PREFS_QUOTE_DURATION">com.elijahverdoorn.mirrordisplay.QUOTE_DURATION</string>
+    <string name="SHARED_PREFS_BIBLE_DURATION">com.elijahverdoorn.mirrordisplay.BIBLE_DURATION</string>
 
 </resources>

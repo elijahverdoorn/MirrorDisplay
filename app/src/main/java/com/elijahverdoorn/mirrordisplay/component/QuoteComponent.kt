@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.quote_component.view.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
+import kotlin.time.Duration
 
 class QuoteComponent : FrameLayout {
     constructor(context: Context) : super(context)
@@ -25,10 +26,11 @@ class QuoteComponent : FrameLayout {
         View.inflate(context, R.layout.quote_component, this)
     }
 
-    suspend fun update(quoteManager: QuoteManager) {
+    @kotlin.time.ExperimentalTime
+    suspend fun update(quoteManager: QuoteManager, interval: Duration) {
         while (true) {
             fadeIn()
-            delay(TimeUnit.SECONDS.toMillis(10)) // Temp: every 10s, run this
+            delay(interval.inMilliseconds.toLong())
             fadeOut()
             val q = quoteManager.getQuote()
             quote.text = resources.getString(R.string.quote_template, q.quote)

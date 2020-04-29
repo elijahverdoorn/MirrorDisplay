@@ -112,6 +112,53 @@
 
         </LinearLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/durationInstructions"
+                android:text="@string/duration_instructions" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/quoteDuration"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/quote_duration"
+                app:layout_constraintEnd_toStartOf="@+id/bibleDuration"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/durationInstructions">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLines="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bibleDuration"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/bible_duration"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/quoteDuration"
+                app:layout_constraintTop_toBottomOf="@id/durationInstructions">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLines="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
