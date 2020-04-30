@@ -47,6 +47,11 @@ class AboutActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        finish()
+        startActivity(Intent(this, FullscreenActivity::class.java))
+    }
+
     private fun getEmailDeveloperIntent() = Intent(Intent.ACTION_SEND).apply {
         type = "*/*"
         putExtra(Intent.EXTRA_EMAIL, getString(R.string.developer_email))

@@ -64,6 +64,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun startMainActivity() {
+        finish()
         startActivity(Intent(this, FullscreenActivity::class.java))
     }
 
@@ -131,15 +132,19 @@ class SettingsActivity : AppCompatActivity() {
                 putString(key, value)
             }
         }
-        with(editor) {
-            putLong(getString(R.string.SHARED_PREFS_QUOTE_DURATION), duration.toLong())
+        if (duration.isBlank().not()) {
+            with(editor) {
+                putLong(getString(R.string.SHARED_PREFS_QUOTE_DURATION), duration.toLong())
+            }
         }
     }
 
     private fun saveBible(editor: SharedPreferences.Editor) {
         val duration = bibleDuration.editText?.text.toString()
-        with(editor) {
-            putLong(getString(R.string.SHARED_PREFS_BIBLE_DURATION), duration.toLong())
+        if (duration.isBlank().not()) {
+            with(editor) {
+                putLong(getString(R.string.SHARED_PREFS_BIBLE_DURATION), duration.toLong())
+            }
         }
     }
 

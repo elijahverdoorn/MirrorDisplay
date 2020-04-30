@@ -20,6 +20,7 @@ import com.elijahverdoorn.mirrordisplay.data.manager.WeatherManager
 import kotlinx.android.synthetic.main.activity_fullscreen.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
@@ -29,7 +30,7 @@ import kotlin.time.toDuration
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
+class FullscreenActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private val mHideHandler = Handler()
     private val mHidePart2Runnable = Runnable {
         // Delayed removal of status and navigation bar
@@ -154,10 +155,14 @@ class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
     }
 
     private fun launchSettings() {
+        cancel()
+        finish()
         startActivity(Intent(this, SettingsActivity::class.java))
     }
 
     private fun launchAbout() {
+        cancel()
+        finish()
         startActivity(Intent(this, AboutActivity::class.java))
     }
 
