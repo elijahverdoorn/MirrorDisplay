@@ -20,14 +20,17 @@ import com.elijahverdoorn.mirrordisplay.data.manager.WeatherManager
 import kotlinx.android.synthetic.main.activity_fullscreen.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-
+import kotlin.time.Duration
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
+class FullscreenActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private val mHideHandler = Handler()
     private val mHidePart2Runnable = Runnable {
         // Delayed removal of status and navigation bar
@@ -52,6 +55,7 @@ class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
     private val mHideRunnable = Runnable { hide() }
     private lateinit var prefs: SharedPreferences
 
+    @kotlin.time.ExperimentalTime
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -121,6 +125,7 @@ class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
         return true
     }
 
+    @kotlin.time.ExperimentalTime
     private fun setupUI(prefs: SharedPreferences) {
         if (prefs.getBoolean(getString(R.string.SHARED_PREFS_WEATHER_ENABLED), false)) {
             makeWeatherComponent(
@@ -131,31 +136,33 @@ class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
         }
         if (prefs.getBoolean(getString(R.string.SHARED_PREFS_QUOTE_ENABLED), false)) {
             makeQuoteComponent(
-                prefs.getString(getString(R.string.SHARED_PREFS_QUOTE_URL), "")!!
+                prefs.getString(getString(R.string.SHARED_PREFS_QUOTE_URL), "")!!,
+                getDuration(getString(R.string.SHARED_PREFS_QUOTE_DURATION))
             )
         }
         if (prefs.getBoolean(getString(R.string.SHARED_PREFS_TIME_ENABLED), false)) {
             makeTimeComponent()
         }
         if (prefs.getBoolean(getString(R.string.SHARED_PREFS_BIBLE_ENABLED), false)) {
-            makeBibleComponent()
+            makeBibleComponent(getDuration(getString(R.string.SHARED_PREFS_BIBLE_DURATION)))
         }
     }
 
-    private fun makeBibleComponent() {
-        val bibleComponent = BibleComponent(this)
-        val bibleManager = BibleManager()
-        launch {
-            bibleComponent.update(bibleManager)
-        }
-        bibleFrame.addView(bibleComponent)
+    @kotlin.time.ExperimentalTime
+    private fun getDuration(key: String): Duration {
+        val l = prefs.getLong(key, TEN_SECONDS.toLong())
+        return l.toDuration(DurationUnit.MILLISECONDS)
     }
 
     private fun launchSettings() {
+        cancel()
+        finish()
         startActivity(Intent(this, SettingsActivity::class.java))
     }
 
     private fun launchAbout() {
+        cancel()
+        finish()
         startActivity(Intent(this, AboutActivity::class.java))
     }
 
@@ -166,6 +173,16 @@ class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
         // created, to briefly hint to the user that UI controls
         // are available.
         delayedHide(100)
+    }
+
+    @kotlin.time.ExperimentalTime
+    private fun makeBibleComponent(duration: Duration) {
+        val bibleComponent = BibleComponent(this)
+        val bibleManager = BibleManager()
+        launch {
+            bibleComponent.update(bibleManager, duration)
+        }
+        bibleFrame.addView(bibleComponent)
     }
 
     private fun makeWeatherComponent(
@@ -189,14 +206,15 @@ class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
         timeFrame.addView(timeComponent)
     }
 
-    private fun makeQuoteComponent(quoteUrl: String) {
+    @kotlin.time.ExperimentalTime
+    private fun makeQuoteComponent(quoteUrl: String, duration: Duration) {
         val quoteComponent = QuoteComponent(this)
         val quoteManager =
             QuoteManager(
                 quoteUrl
             )
         launch {
-            quoteComponent.update(quoteManager)
+            quoteComponent.update(quoteManager, duration)
         }
         quoteFrame.addView(quoteComponent)
     }
@@ -259,5 +277,8 @@ class FullscreenActivity : AppCompatActivity() , CoroutineScope by MainScope() {
          * and a change of the status and navigation bar.
          */
         private val UI_ANIMATION_DELAY = 300
+
+        @kotlin.time.ExperimentalTime
+        private const val TEN_SECONDS = 10_000
     }
 }

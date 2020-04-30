@@ -59,11 +59,12 @@ class SettingsActivity : AppCompatActivity() {
             startMainActivity()
         } else {
             // need all values to proceed, so don't advance
-            Snackbar.make(save, R.string.settings_not_all_fields_set, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(save, R.string.settings_not_all_fields_set, Snackbar.LENGTH_SHORT).show()
         }
     }
 
     private fun startMainActivity() {
+        finish()
         startActivity(Intent(this, FullscreenActivity::class.java))
     }
 
@@ -77,6 +78,13 @@ class SettingsActivity : AppCompatActivity() {
         }
         if (prefs.contains(getString(R.string.SHARED_PREFS_WEATHER_LON))) {
             weatherLon.editText?.setText(prefs.getFloat(getString(R.string.SHARED_PREFS_WEATHER_LON), 0f).toString())
+        }
+
+        if (prefs.contains(getString(R.string.SHARED_PREFS_BIBLE_DURATION))) {
+            bibleDuration.editText?.setText(prefs.getLong(getString(R.string.SHARED_PREFS_BIBLE_DURATION), 0).toString())
+        }
+        if (prefs.contains(getString(R.string.SHARED_PREFS_QUOTE_DURATION))) {
+            bibleDuration.editText?.setText(prefs.getLong(getString(R.string.SHARED_PREFS_QUOTE_DURATION), 0).toString())
         }
     }
 
@@ -115,12 +123,27 @@ class SettingsActivity : AppCompatActivity() {
     private fun saveQuote(editor: SharedPreferences.Editor) {
         val quote = quoteURL.editText?.text.toString()
         val apiKey = weatherApiKey.editText?.text.toString()
+        val duration = quoteDuration.editText?.text.toString()
         mapOf(
             quote to getString(R.string.SHARED_PREFS_QUOTE_URL),
             apiKey to getString(R.string.SHARED_PREFS_WEATHER_API_KEY)
         ).forEach { value, key ->
             with(editor) {
                 putString(key, value)
+            }
+        }
+        if (duration.isBlank().not()) {
+            with(editor) {
+                putLong(getString(R.string.SHARED_PREFS_QUOTE_DURATION), duration.toLong())
+            }
+        }
+    }
+
+    private fun saveBible(editor: SharedPreferences.Editor) {
+        val duration = bibleDuration.editText?.text.toString()
+        if (duration.isBlank().not()) {
+            with(editor) {
+                putLong(getString(R.string.SHARED_PREFS_BIBLE_DURATION), duration.toLong())
             }
         }
     }
@@ -152,6 +175,7 @@ class SettingsActivity : AppCompatActivity() {
         if (weatherSwitch.isChecked) {
             saveWeather(editor)
         }
+        saveBible(editor)
 
         editor.commit()
     }

@@ -4,17 +4,13 @@ import android.content.Context
 import android.text.Html
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.AnimationUtils
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.FrameLayout
-import androidx.core.text.htmlEncode
-import androidx.core.text.parseAsHtml
 import com.elijahverdoorn.mirrordisplay.R
 import com.elijahverdoorn.mirrordisplay.data.manager.BibleManager
 import kotlinx.android.synthetic.main.bible_component.view.*
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import java.util.concurrent.TimeUnit
+import kotlin.time.Duration
 
 class BibleComponent : FrameLayout {
     constructor(context: Context) : super(context)
@@ -28,10 +24,11 @@ class BibleComponent : FrameLayout {
         View.inflate(context, R.layout.bible_component, this)
     }
 
-    suspend fun update(bibleManager: BibleManager) {
+    @kotlin.time.ExperimentalTime
+    suspend fun update(bibleManager: BibleManager, interval: Duration) {
         while (true) {
             fadeIn()
-            delay(TimeUnit.SECONDS.toMillis(10)) // Temp: every 10s, run this
+            delay(interval.inMilliseconds.toLong())
             fadeOut()
             val v = bibleManager.getVerse()
             verse.text = Html.fromHtml(v.text)

@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlinx-serialization'
+apply plugin: 'koin'
 
 android {
     compileSdkVersion 29
@@ -32,6 +33,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.preference:preference:1.1.1'
 
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
     implementation 'com.google.android.material:material:1.1.0'
@@ -44,12 +46,17 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.3.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.3.1'
 
+    // Koin for Android
+    implementation "org.koin:koin-android:$koin_version"
+    implementation "org.koin:koin-android-scope:$koin_version"
+    implementation "org.koin:koin-android-viewmodel:$koin_version"
+
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0'
     implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.4.0'
     implementation "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
 
-    implementation 'androidx.preference:preference:1.1.0-rc01'
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.koin:koin-test:$koin_version" // Koin for Unit tests
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
