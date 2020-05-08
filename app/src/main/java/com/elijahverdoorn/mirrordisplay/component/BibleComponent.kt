@@ -25,14 +25,12 @@ class BibleComponent : FrameLayout {
     }
 
     @kotlin.time.ExperimentalTime
-    suspend fun update(bibleManager: BibleManager, interval: Duration) {
-        while (true) {
-            fadeIn()
-            delay(interval.inMilliseconds.toLong())
+    suspend fun update(bibleManager: BibleManager) {
+        for (b in bibleManager.bibleChannel) {
             fadeOut()
-            val v = bibleManager.getVerse()
-            verse.text = Html.fromHtml(v.text)
-            chapter.text = resources.getString(R.string.chapter_template, v.bookname, v.chapter, v.verse)
+            verse.text = Html.fromHtml(b.text)
+            chapter.text = resources.getString(R.string.chapter_template, b.bookname, b.chapter, b.verse)
+            fadeIn()
         }
     }
 

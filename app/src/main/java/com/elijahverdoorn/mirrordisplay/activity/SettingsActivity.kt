@@ -84,7 +84,7 @@ class SettingsActivity : AppCompatActivity() {
             bibleDuration.editText?.setText(prefs.getLong(getString(R.string.SHARED_PREFS_BIBLE_DURATION), 0).toString())
         }
         if (prefs.contains(getString(R.string.SHARED_PREFS_QUOTE_DURATION))) {
-            bibleDuration.editText?.setText(prefs.getLong(getString(R.string.SHARED_PREFS_QUOTE_DURATION), 0).toString())
+            quoteDuration.editText?.setText(prefs.getLong(getString(R.string.SHARED_PREFS_QUOTE_DURATION), 0).toString())
         }
     }
 

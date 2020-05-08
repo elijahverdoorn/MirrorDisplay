@@ -3,6 +3,7 @@ package com.elijahverdoorn.mirrordisplay.activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.icu.util.TimeUnit
 import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
@@ -22,9 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import kotlin.time.Duration
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
+import kotlin.time.*
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -151,7 +150,7 @@ class FullscreenActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     @kotlin.time.ExperimentalTime
     private fun getDuration(key: String): Duration {
         val l = prefs.getLong(key, TEN_SECONDS.toLong())
-        return l.toDuration(DurationUnit.MILLISECONDS)
+        return l.toDuration(DurationUnit.MINUTES)
     }
 
     private fun launchSettings() {
@@ -178,20 +177,21 @@ class FullscreenActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     @kotlin.time.ExperimentalTime
     private fun makeBibleComponent(duration: Duration) {
         val bibleComponent = BibleComponent(this)
-        val bibleManager = BibleManager()
+        val bibleManager = BibleManager(duration)
         launch {
-            bibleComponent.update(bibleManager, duration)
+            bibleComponent.update(bibleManager)
         }
         bibleFrame.addView(bibleComponent)
     }
 
+    @ExperimentalTime
     private fun makeWeatherComponent(
         apiKey: String,
         lat: Float,
         lon: Float
     ) {
         val weatherComponent = WeatherComponent(this)
-        val weatherManager = WeatherManager(coroutineContext, apiKey, lat, lon)
+        val weatherManager = WeatherManager(coroutineContext, apiKey, lat, lon, duration = ONE_HOUR)
         launch {
             weatherComponent.update(weatherManager)
         }
@@ -211,10 +211,11 @@ class FullscreenActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         val quoteComponent = QuoteComponent(this)
         val quoteManager =
             QuoteManager(
-                quoteUrl
+                quoteUrl,
+                duration
             )
         launch {
-            quoteComponent.update(quoteManager, duration)
+            quoteComponent.update(quoteManager)
         }
         quoteFrame.addView(quoteComponent)
     }
@@ -280,5 +281,7 @@ class FullscreenActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
         @kotlin.time.ExperimentalTime
         private const val TEN_SECONDS = 10_000
+        @ExperimentalTime
+        private val ONE_HOUR = 1.hours
     }
 }

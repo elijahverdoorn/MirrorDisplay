@@ -7,12 +7,8 @@ import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.FrameLayout
 import com.elijahverdoorn.mirrordisplay.R
 import com.elijahverdoorn.mirrordisplay.data.manager.QuoteManager
-import com.google.android.material.animation.AnimationUtils
 import kotlinx.android.synthetic.main.quote_component.view.*
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import java.util.concurrent.TimeUnit
-import kotlin.time.Duration
 
 class QuoteComponent : FrameLayout {
     constructor(context: Context) : super(context)
@@ -27,18 +23,16 @@ class QuoteComponent : FrameLayout {
     }
 
     @kotlin.time.ExperimentalTime
-    suspend fun update(quoteManager: QuoteManager, interval: Duration) {
-        while (true) {
-            fadeIn()
-            delay(interval.inMilliseconds.toLong())
+    suspend fun update(quoteManager: QuoteManager) {
+        for (q in quoteManager.quotesChannel) {
             fadeOut()
-            val q = quoteManager.getQuote()
             quote.text = resources.getString(R.string.quote_template, q.quote)
             speaker.text = resources.getString(R.string.quote_speaker_template, q.speaker)
+            fadeIn()
         }
     }
 
-    private fun fadeIn() = runBlocking {
+    private suspend fun fadeIn() {
         quote.startAnimation(loadAnimation(context, R.anim.fade_in))
         speaker.startAnimation(loadAnimation(context, R.anim.fade_in))
         quote.alpha = 1f
@@ -46,7 +40,7 @@ class QuoteComponent : FrameLayout {
         delay(1000)
     }
 
-    private fun fadeOut() = runBlocking {
+    private suspend fun fadeOut() {
         quote.startAnimation(loadAnimation(context, R.anim.fade_out))
         speaker.startAnimation(loadAnimation(context, R.anim.fade_out))
         delay(1000)

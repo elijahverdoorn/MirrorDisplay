@@ -1,18 +1,32 @@
 package com.elijahverdoorn.mirrordisplay.data.manager
 
+import com.elijahverdoorn.mirrordisplay.data.model.Bible
 import com.elijahverdoorn.mirrordisplay.data.source.RemoteBibleService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
+import kotlin.time.Duration
 import kotlin.coroutines.CoroutineContext
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 class BibleManager(
+    interval: Duration,
     override val coroutineContext: CoroutineContext = Dispatchers.IO
 ): CoroutineScope {
     val service = RemoteBibleService()
+    val bibleChannel = Channel<Bible>()
+
+    init {
+        launch {
+            while (true) {
+                bibleChannel.send(getVerse())
+                delay(interval)
+            }
+        }
+    }
 
     // Return a single random bible verse
-    suspend fun getVerse() = withContext(coroutineContext) {
+    private suspend fun getVerse() = withContext(coroutineContext) {
         service.fetchBible()
     }
 

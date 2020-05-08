@@ -31,15 +31,12 @@ class WeatherComponent : FrameLayout {
     }
 
     suspend fun update(weatherManager: WeatherManager) {
-        while (true) {
-            val w = weatherManager.getWeather()
+        for (w in weatherManager.weatherChannel) {
             currentTemp.text = resources.getString(R.string.temp_f_template, w.current.temp)
             tomorrowTemp.text = resources.getString(R.string.temp_f_template, w.daily.first().temp.day)
 
             loadWeatherIcon(currentTemp, w.current.weather.first().iconUrl)
             loadWeatherIcon(tomorrowTemp, w.daily.get(1).weather.first().iconUrl)
-
-            delay(TimeUnit.MINUTES.toMillis(1))
         }
     }
 

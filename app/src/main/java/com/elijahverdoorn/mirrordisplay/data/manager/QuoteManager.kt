@@ -3,23 +3,33 @@ package com.elijahverdoorn.mirrordisplay.data.manager
 import com.elijahverdoorn.mirrordisplay.data.model.Quote
 import com.elijahverdoorn.mirrordisplay.data.source.RemoteQuoteService
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.*
 import kotlin.coroutines.CoroutineContext
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 class QuoteManager(
     url: String,
+    interval: Duration,
     override val coroutineContext: CoroutineContext = Dispatchers.IO
 ): CoroutineScope {
     val service = RemoteQuoteService(url)
-    lateinit var quotes: List<Quote>
+    private lateinit var quotes: List<Quote>
+    val quotesChannel = Channel<Quote>()
 
     init {
         launch {
             fetchQuotes()
+            while (true) {
+                quotesChannel.send(getQuote())
+                delay(interval)
+            }
         }
     }
 
     // Return a single Quote
-    suspend fun getQuote(): Quote {
+    private suspend fun getQuote(): Quote {
         if (this::quotes.isInitialized && quotes.isEmpty().not()) {
             return popRandomQuote()
         }
