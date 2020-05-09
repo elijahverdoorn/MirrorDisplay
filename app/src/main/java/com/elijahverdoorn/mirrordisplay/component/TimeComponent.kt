@@ -5,11 +5,12 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import com.elijahverdoorn.mirrordisplay.R
+import com.elijahverdoorn.mirrordisplay.data.manager.DataManager
 import kotlinx.android.synthetic.main.time_component.view.*
 import kotlinx.coroutines.delay
 import java.util.*
 
-class TimeComponent: FrameLayout {
+class TimeComponent: FrameLayout, Component {
 
     constructor(context: Context) : super(context)
 
@@ -22,7 +23,11 @@ class TimeComponent: FrameLayout {
         View.inflate(context, R.layout.time_component, this)
     }
 
-    suspend fun update() {
+    override fun setManager(dataManager: DataManager) {
+        // noop
+    }
+
+    override suspend fun update() {
         while (true) {
             val calendar = Calendar.getInstance()
             val s = if (calendar.get(Calendar.HOUR).toString() == "0") {

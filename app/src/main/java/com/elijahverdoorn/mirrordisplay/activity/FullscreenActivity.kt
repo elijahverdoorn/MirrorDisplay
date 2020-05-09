@@ -9,12 +9,14 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.elijahverdoorn.mirrordisplay.R
+import com.elijahverdoorn.mirrordisplay.component.Component
 import com.elijahverdoorn.mirrordisplay.manager.ComponentManager
 import com.elijahverdoorn.mirrordisplay.manager.PrefsManager
 import kotlinx.android.synthetic.main.activity_fullscreen.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import kotlin.time.ExperimentalTime
 import kotlin.time.hours
 
@@ -92,18 +94,33 @@ class FullscreenActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     @kotlin.time.ExperimentalTime
     private fun setupUI(prefs: SharedPreferences) {
+        val components = mutableListOf<Component>()
         if (prefs.getBoolean(getString(R.string.SHARED_PREFS_WEATHER_ENABLED), false)) {
-            componentManager.getWeatherComponent()
+            componentManager.getWeatherComponent().let {
+                weatherFrame.addView(it)
+                components.add(it)
+            }
         }
         if (prefs.getBoolean(getString(R.string.SHARED_PREFS_QUOTE_ENABLED), false)) {
-            componentManager.getQuoteComponent()
+            componentManager.getQuoteComponent().let {
+                quoteFrame.addView(it)
+                components.add(it)
+            }
         }
         if (prefs.getBoolean(getString(R.string.SHARED_PREFS_TIME_ENABLED), false)) {
-            componentManager.getTimeComponent()
+            componentManager.getTimeComponent().let {
+                timeFrame.addView(it)
+                components.add(it)
+            }
         }
         if (prefs.getBoolean(getString(R.string.SHARED_PREFS_BIBLE_ENABLED), false)) {
-            componentManager.getBibleComponent()
+            componentManager.getBibleComponent().let {
+                bibleFrame.addView(it)
+                components.add(it)
+            }
         }
+
+        components.forEach { launch { it.update() } }
     }
 
     private fun launchSettings() {
