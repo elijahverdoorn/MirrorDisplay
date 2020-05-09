@@ -2,8 +2,6 @@ package com.elijahverdoorn.mirrordisplay.component
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.provider.Settings.Global.getString
-import android.text.format.Formatter
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
@@ -11,14 +9,13 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.elijahverdoorn.mirrordisplay.R
+import com.elijahverdoorn.mirrordisplay.data.manager.DataManager
 import com.elijahverdoorn.mirrordisplay.data.manager.WeatherManager
 import kotlinx.android.synthetic.main.weather_component.view.*
-import kotlinx.coroutines.delay
-import java.lang.StringBuilder
-import java.util.*
-import java.util.concurrent.TimeUnit
 
-class WeatherComponent : FrameLayout {
+class WeatherComponent : FrameLayout, Component {
+    private lateinit var manager: DataManager
+
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -30,8 +27,12 @@ class WeatherComponent : FrameLayout {
         View.inflate(context, R.layout.weather_component, this)
     }
 
-    suspend fun update(weatherManager: WeatherManager) {
-        for (w in weatherManager.weatherChannel) {
+    override fun setManager(dataManager: DataManager) {
+        manager = dataManager
+    }
+
+    override suspend fun update() {
+        for (w in (manager as WeatherManager).weatherChannel) {
             currentTemp.text = resources.getString(R.string.temp_f_template, w.current.temp)
             tomorrowTemp.text = resources.getString(R.string.temp_f_template, w.daily.first().temp.day)
 

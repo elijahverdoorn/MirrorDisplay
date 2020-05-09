@@ -6,11 +6,14 @@ import android.view.View
 import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.FrameLayout
 import com.elijahverdoorn.mirrordisplay.R
+import com.elijahverdoorn.mirrordisplay.data.manager.DataManager
 import com.elijahverdoorn.mirrordisplay.data.manager.QuoteManager
 import kotlinx.android.synthetic.main.quote_component.view.*
 import kotlinx.coroutines.delay
 
-class QuoteComponent : FrameLayout {
+class QuoteComponent : FrameLayout, Component {
+    private lateinit var manager: DataManager
+
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -22,9 +25,13 @@ class QuoteComponent : FrameLayout {
         View.inflate(context, R.layout.quote_component, this)
     }
 
+    override fun setManager(dataManager: DataManager) {
+        manager = dataManager
+    }
+
     @kotlin.time.ExperimentalTime
-    suspend fun update(quoteManager: QuoteManager) {
-        for (q in quoteManager.quotesChannel) {
+    override suspend fun update() {
+        for (q in (manager as QuoteManager).quotesChannel) {
             fadeOut()
             quote.text = resources.getString(R.string.quote_template, q.quote)
             speaker.text = resources.getString(R.string.quote_speaker_template, q.speaker)

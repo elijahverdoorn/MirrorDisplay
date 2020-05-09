@@ -12,7 +12,7 @@ import kotlin.time.ExperimentalTime
 class BibleManager(
     interval: Duration,
     override val coroutineContext: CoroutineContext = Dispatchers.IO
-): CoroutineScope {
+): CoroutineScope, DataManager {
     val service = RemoteBibleService()
     val bibleChannel = Channel<Bible>()
 

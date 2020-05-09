@@ -1,9 +1,7 @@
 package com.elijahverdoorn.mirrordisplay.activity
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.icu.util.TimeUnit
 import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
@@ -11,19 +9,14 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.elijahverdoorn.mirrordisplay.R
-import com.elijahverdoorn.mirrordisplay.component.BibleComponent
-import com.elijahverdoorn.mirrordisplay.component.QuoteComponent
-import com.elijahverdoorn.mirrordisplay.component.TimeComponent
-import com.elijahverdoorn.mirrordisplay.component.WeatherComponent
-import com.elijahverdoorn.mirrordisplay.data.manager.BibleManager
-import com.elijahverdoorn.mirrordisplay.data.manager.QuoteManager
-import com.elijahverdoorn.mirrordisplay.data.manager.WeatherManager
+import com.elijahverdoorn.mirrordisplay.manager.ComponentManager
+import com.elijahverdoorn.mirrordisplay.manager.PrefsManager
 import kotlinx.android.synthetic.main.activity_fullscreen.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
-import kotlin.time.*
+import kotlin.time.ExperimentalTime
+import kotlin.time.hours
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -52,7 +45,8 @@ class FullscreenActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
     private var mVisible: Boolean = false
     private val mHideRunnable = Runnable { hide() }
-    private lateinit var prefs: SharedPreferences
+    private lateinit var prefsManager: PrefsManager
+    private lateinit var componentManager: ComponentManager
 
     @kotlin.time.ExperimentalTime
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,10 +59,11 @@ class FullscreenActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         // Set up the user interaction to manually show or hide the system UI.
         fullscreen_content.setOnClickListener { toggle() }
 
-        prefs = applicationContext.getSharedPreferences(getString(R.string.SHARED_PREFS_FILE_KEY), Context.MODE_PRIVATE)
+        prefsManager = PrefsManager(applicationContext)
+        componentManager = ComponentManager(prefsManager, this, coroutineContext)
 
-        if (sharedPrefsSet(prefs)) {
-            setupUI(prefs)
+        if (prefsManager.sharedPrefsSet()) {
+            setupUI(prefsManager.prefs)
         } else {
             // Need settings
             launchSettings()
@@ -95,62 +90,20 @@ class FullscreenActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
     }
 
-    private fun sharedPrefsSet(sharedPreferences: SharedPreferences): Boolean {
-        return weatherPrefsSet(sharedPreferences) && quotePrefsSet(prefs)
-    }
-
-    private fun weatherPrefsSet(prefs: SharedPreferences): Boolean {
-        return componentPrefsSet(prefs, getString(R.string.SHARED_PREFS_WEATHER_ENABLED), listOf(
-            getString(R.string.SHARED_PREFS_WEATHER_LON),
-            getString(R.string.SHARED_PREFS_WEATHER_LAT),
-            getString(R.string.SHARED_PREFS_WEATHER_API_KEY)
-        ))
-    }
-
-    private fun quotePrefsSet(prefs: SharedPreferences): Boolean {
-        return componentPrefsSet(prefs, getString(R.string.SHARED_PREFS_QUOTE_ENABLED), listOf(
-            getString(R.string.SHARED_PREFS_QUOTE_URL)
-        ))
-    }
-
-    private fun componentPrefsSet(prefs: SharedPreferences, enabledKey: String, requiredVals: List<String>): Boolean {
-        if (prefs.getBoolean(enabledKey, false)) {
-            requiredVals.forEach {
-                if (!prefs.contains(it)) {
-                    return false
-                }
-            }
-        }
-        return true
-    }
-
     @kotlin.time.ExperimentalTime
     private fun setupUI(prefs: SharedPreferences) {
         if (prefs.getBoolean(getString(R.string.SHARED_PREFS_WEATHER_ENABLED), false)) {
-            makeWeatherComponent(
-                prefs.getString(getString(R.string.SHARED_PREFS_WEATHER_API_KEY), "")!!,
-                prefs.getFloat(getString(R.string.SHARED_PREFS_WEATHER_LAT), 0f),
-                prefs.getFloat(getString(R.string.SHARED_PREFS_WEATHER_LON), 0f)
-            )
+            componentManager.getWeatherComponent()
         }
         if (prefs.getBoolean(getString(R.string.SHARED_PREFS_QUOTE_ENABLED), false)) {
-            makeQuoteComponent(
-                prefs.getString(getString(R.string.SHARED_PREFS_QUOTE_URL), "")!!,
-                getDuration(getString(R.string.SHARED_PREFS_QUOTE_DURATION))
-            )
+            componentManager.getQuoteComponent()
         }
         if (prefs.getBoolean(getString(R.string.SHARED_PREFS_TIME_ENABLED), false)) {
-            makeTimeComponent()
+            componentManager.getTimeComponent()
         }
         if (prefs.getBoolean(getString(R.string.SHARED_PREFS_BIBLE_ENABLED), false)) {
-            makeBibleComponent(getDuration(getString(R.string.SHARED_PREFS_BIBLE_DURATION)))
+            componentManager.getBibleComponent()
         }
-    }
-
-    @kotlin.time.ExperimentalTime
-    private fun getDuration(key: String): Duration {
-        val l = prefs.getLong(key, TEN_SECONDS.toLong())
-        return l.toDuration(DurationUnit.MINUTES)
     }
 
     private fun launchSettings() {
@@ -172,52 +125,6 @@ class FullscreenActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         // created, to briefly hint to the user that UI controls
         // are available.
         delayedHide(100)
-    }
-
-    @kotlin.time.ExperimentalTime
-    private fun makeBibleComponent(duration: Duration) {
-        val bibleComponent = BibleComponent(this)
-        val bibleManager = BibleManager(duration)
-        launch {
-            bibleComponent.update(bibleManager)
-        }
-        bibleFrame.addView(bibleComponent)
-    }
-
-    @ExperimentalTime
-    private fun makeWeatherComponent(
-        apiKey: String,
-        lat: Float,
-        lon: Float
-    ) {
-        val weatherComponent = WeatherComponent(this)
-        val weatherManager = WeatherManager(coroutineContext, apiKey, lat, lon, duration = ONE_HOUR)
-        launch {
-            weatherComponent.update(weatherManager)
-        }
-        weatherFrame.addView(weatherComponent)
-    }
-
-    private fun makeTimeComponent() {
-        val timeComponent = TimeComponent(this)
-        launch {
-            timeComponent.update()
-        }
-        timeFrame.addView(timeComponent)
-    }
-
-    @kotlin.time.ExperimentalTime
-    private fun makeQuoteComponent(quoteUrl: String, duration: Duration) {
-        val quoteComponent = QuoteComponent(this)
-        val quoteManager =
-            QuoteManager(
-                quoteUrl,
-                duration
-            )
-        launch {
-            quoteComponent.update(quoteManager)
-        }
-        quoteFrame.addView(quoteComponent)
     }
 
     private fun toggle() {
@@ -280,8 +187,8 @@ class FullscreenActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         private val UI_ANIMATION_DELAY = 300
 
         @kotlin.time.ExperimentalTime
-        private const val TEN_SECONDS = 10_000
+        const val TEN_SECONDS = 10_000
         @ExperimentalTime
-        private val ONE_HOUR = 1.hours
+        val ONE_HOUR = 1.hours
     }
 }

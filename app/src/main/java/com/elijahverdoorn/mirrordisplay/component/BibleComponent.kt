@@ -8,11 +8,14 @@ import android.view.animation.AnimationUtils.loadAnimation
 import android.widget.FrameLayout
 import com.elijahverdoorn.mirrordisplay.R
 import com.elijahverdoorn.mirrordisplay.data.manager.BibleManager
+import com.elijahverdoorn.mirrordisplay.data.manager.DataManager
 import kotlinx.android.synthetic.main.bible_component.view.*
 import kotlinx.coroutines.delay
 import kotlin.time.Duration
 
-class BibleComponent : FrameLayout {
+class BibleComponent : FrameLayout, Component {
+    private lateinit var manager: DataManager
+
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -24,9 +27,13 @@ class BibleComponent : FrameLayout {
         View.inflate(context, R.layout.bible_component, this)
     }
 
+    override fun setManager(dataManager: DataManager) {
+        manager = dataManager
+    }
+
     @kotlin.time.ExperimentalTime
-    suspend fun update(bibleManager: BibleManager) {
-        for (b in bibleManager.bibleChannel) {
+    override suspend fun update() {
+        for (b in (manager as BibleManager).bibleChannel) {
             fadeOut()
             verse.text = Html.fromHtml(b.text)
             chapter.text = resources.getString(R.string.chapter_template, b.bookname, b.chapter, b.verse)

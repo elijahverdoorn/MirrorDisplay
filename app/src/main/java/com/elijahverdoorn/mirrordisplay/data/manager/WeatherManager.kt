@@ -15,7 +15,7 @@ class WeatherManager @ExperimentalTime constructor(
     override val coroutineContext: CoroutineContext,
     val apiKey: String,
     val interval: Duration
-): CoroutineScope {
+): CoroutineScope, DataManager {
 
     private val service = RemoteWeatherService.create()
     private lateinit var weather: WeatherResponse

@@ -13,7 +13,7 @@ class QuoteManager(
     url: String,
     interval: Duration,
     override val coroutineContext: CoroutineContext = Dispatchers.IO
-): CoroutineScope {
+): CoroutineScope, DataManager {
     val service = RemoteQuoteService(url)
     private lateinit var quotes: List<Quote>
     val quotesChannel = Channel<Quote>()
